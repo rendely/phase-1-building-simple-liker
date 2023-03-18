@@ -2,8 +2,37 @@
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
-// Your JavaScript code goes here!
+// Get all hearts on page
+const hearts = document.querySelectorAll('.like-glyph');
 
+// Add event listener 
+for (heart of hearts){
+  heart.addEventListener('click',handleHeartClick);
+}
+
+// Function to handle heart getting clicked
+function handleHeartClick(e){
+  mimicServerCall()
+  .then(()=>{
+    heartClassList = e.target.classList;
+    if (heartClassList.contains('activated-heart')){
+      heartClassList.remove('activated-heart')
+    }else{
+      heartClassList.add('activated-heart')
+    }
+  })
+  .catch((e)=> {
+    console.log(e);
+    const errorModal = document.querySelector("#modal");
+    errorModal.classList.remove('hidden');
+    const errorModalMessage = document.querySelector("#modal-message");
+    errorModalMessage.textContent = e;
+    setTimeout(()=>{
+      errorModal.classList.add('hidden');
+    },3000)
+  });
+  console.log(e.target);
+}
 
 
 
